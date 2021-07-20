@@ -16,7 +16,7 @@ router
 
 router
     .route('/:id')
-    .post(addThought)
+    // .post(addThought)
     .get(getThoughtById)
     .put(updateThought)
 
