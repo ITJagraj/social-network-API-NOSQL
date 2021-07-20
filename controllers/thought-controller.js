@@ -1,39 +1,38 @@
-const { Thought, User } = require('../models');
+const { User, Thought } = require('../models');
 
 const thoughtController = {
-    //get all thoughts
-    getAllThoughts(req, res) {
+    //GET all thoughts
+    getAllThought(req, res) {
         Thought.find({})
+            .populate({
+                path: 'user',
+                select: '-__v'
+            })
+            .select('-__v')
+            // .sort({ _id: -1})
             .then(dbThoughtData => res.json(dbThoughtData))
             .catch(err => {
                 console.log(err);
                 res.status(500).json(err);
             });
     },
-
-    //get thought by id
+    //GET single thought by its _id
     getThoughtById({ params }, res) {
-        Thought.findById(params.id)
+        Thought.findOne({ _id: params.id })
             .then(dbThoughtData => {
+                //If no thought is found, send 404
                 if (!dbThoughtData) {
-                    res.status(404).json({ message: 'Thought Id does not exists!' });
+                    res.status(404).json({ message: 'No thought Id found' });
                     return;
                 }
-
                 res.json(dbThoughtData);
             })
             .catch(err => {
                 console.log(err);
-                res.status(500).json(err);
+                res.status(400).json(err);
             });
     },
 
-    //POST to create a new thought
-    // {
-    //     "thoughtText": "Here's a cool thought...",
-    //     "username": "lernantino",
-    //     "userId": "5edff358a0fcb779aa7b118b"
-    //   }
     addThought({ params, body }, res) {
         console.log("test")
         console.log("params", body)
@@ -90,7 +89,7 @@ const thoughtController = {
         Thought.findOneAndDelete({ _id: params.thoughtId })
             .then(deletedThought => {
                 if (!deletedThought) {
-                    return res.status(404).json({ message: 'No thought with this id!' });
+                    return res.status(404).json({ message: 'check the id!' });
                 }
                 return User.findOneAndUpdate(
                     { _id: params.userId },
