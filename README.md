@@ -16,4 +16,4 @@ This is the back-end for a social network application written built with Node.js
 
 # Video link
 
-https://drive.google.com/file/d/1ZeMKsCvP094xuicaugmFIjpDE8Q-Xuhc/view
+https://drive.google.com/file/d/1aS9JFMboWqEwStGDPUx4WQVk8RUwsP58/view
